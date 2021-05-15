@@ -1,0 +1,11 @@
+{
+    "python.pythonPath": "/home/joham/DEV/final-project-electiva3/env/bin/python",
+    "python.linting.enabled": true,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {"source.organizeImports": true},
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": ["--max-line-length=100"],
+    "python.formatting.autopep8Args": ["--max-line-length", "100", "--experimental"],
+    "python.linting.mypyEnabled": true,
+    "python.linting.banditEnabled": true
+}
