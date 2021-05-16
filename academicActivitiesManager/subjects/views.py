@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from datetime import date
+
+from django.shortcuts import redirect, render
 
 from .models import Activity, Subject, TypeActivity
 
@@ -13,3 +15,13 @@ def index(request):
         'type_activities': all_type_activities
     }
     return render(request, 'subjects/index.html', context)
+
+
+def addsubject(request):
+    if request.method == 'POST':
+        subject_name = request.POST["subjectName"]
+        teacher_name = request.POST["teacherName"]
+        new_subjects = Subject(name=subject_name, teacher=teacher_name, date_created=date.today())
+        new_subjects.save()
+        return redirect('index')
+    return render(request, 'subjects/add.html')
