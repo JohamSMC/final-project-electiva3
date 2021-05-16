@@ -32,16 +32,17 @@
   <!-- End notification_area -->
         {% if subjects %}
         
-          <div class="container">
-            <div class="row row-cols-auto">
+          <div class="container bg-secondary bg-gradient">
+            <div class="row row-cols-sm-md-12 row-cols-lg-2 my-3">
+            
           {% for subject in subjects %}
-              <div class="col">
+              <div class="my-3">
                   <div class="card">
-                    <div class="card-header">{{subject.name}}</div>
+                    <div class="card-header"><strong>Asignatura: </strong>{{subject.name}}</div>
                     <div class="card-body">
-                      <h5 class="card-title">{{subject.teacher}}</h5>
+                      <p class="card-title"><strong>Docente: </strong>{{subject.teacher}}</p>
                       <p class="card-text">
-                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#subject-{{subject.id_subject}}"
+                        <button class="btn btn-primary col-12" type="button" data-bs-toggle="collapse" data-bs-target="#subject-{{subject.id_subject}}"
                           aria-expanded="false" aria-controls="subject-{{subject.id_subject}}">
                           ACTIVIDADES
                         </button>
@@ -65,22 +66,28 @@
                                       <div id="flush-{{activity.id_activity}}" class="accordion-collapse collapse" aria-labelledby="flush-{{activity.id_activity}}"
                                         data-bs-parent="#accordion-{{activity.id_activity}}">
                                         <div class="accordion-body">
-                                          <div class="row">
-                                            <div class="col">
-                                              <div class="input-group mb-3">
+                                        <form action="/finish_activity/{{activity.id_activity}}" method="post">
+                                        {% csrf_token %}
+                                          <div class="row my-2">
+                                              <div class="input-group col-12">
                                                 <span class="input-group-text">Fecha Entrega</span>
-                                                <input type="date">
+                                                <input type="date" class="form-control" value="{{activity.date_finished|date:"Y-m-d"}}" name="date_finished">
                                               </div>
-                                            </div>
-                                            <div class="col">
-                                              <div class="input-group mb-3">
+                                          </div>
+                                          <div class="row my-2">
+                                              <div class="input-group col-12">
                                                 <span class="input-group-text">NOTA</span>
-                                                <input type="number" min="0" max="5" step="0.1" value="3.0">
+                                                <input type="number" class="form-control" min="0,0" max="5,0" step="0,1" value="{{activity.grade|cut:","}}" name="grade">
                                               </div>
-                                            </div>
+                                          </div>
+                                          <div class="row my-2">
+                                          <div class="input-group col-12">
+                                              <input type="submit" class="form-control btn btn-success mb-3" value ="Terminar" >
+                                          </div>
                                           </div>
                                         </div>
                                       </div>
+                                      </form>
                                     </div>
 
                                   </div>
@@ -97,7 +104,6 @@
                       </p>
                     </div>
                   </div>
-
               </div>
           {% endfor %}
             </div>
