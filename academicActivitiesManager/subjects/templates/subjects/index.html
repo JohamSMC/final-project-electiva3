@@ -74,14 +74,14 @@
                             <div class="row my-2">
                               <div class="input-group col-12">
                                 <span class="input-group-text">Fecha Entrega</span>
-                                <input type="date" class="form-control" value="{{activity.date_finished|date:"Y-m-d"}}"
+                                <input type="datetime-local" class="form-control" value="{{activity.date_finished|date:"Y-m-d\TG:i"}}"
                                   name="date_finished">
                               </div>
                             </div>
                             <div class="row my-2">
                               <div class="input-group col-12">
                                 <span class="input-group-text">NOTA</span>
-                                <input type="number" class="form-control" min="0,0" max="5,0" step="0,1"
+                                <input type="number" class="form-control" min="0.0" max="5.0" step="0.1"
                                   value="{{activity.grade|cut:","}}" name="grade">
                               </div>
                             </div>

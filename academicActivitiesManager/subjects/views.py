@@ -30,8 +30,13 @@ def addsubject(request):
 def update_activity(request, id_activity):
     name_grade = request.POST['grade']
     name_date_finished = request.POST['date_finished']
-    print('ID_ACTIVITY', id_activity)
-    print('NAME_GRADE', name_grade)
+    activity = Activity.objects.get(id_activity=id_activity)
+    activity.grade = name_grade
+    activity.date_finished = name_date_finished
+    activity.state = True
+    activity.save()
+    # print('ID_ACTIVITY', id_activity)
+    # print('NAME_GRADE', name_grade)
     print('name_date_finished', name_date_finished)
 
     return redirect("index")
