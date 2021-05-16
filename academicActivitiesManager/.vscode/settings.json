@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/home/arias/developer/final_project_electiva_II/venv/bin/python3",
+    "python.pythonPath": "/home/hernancadena/project/venv/bin/python",
     "python.linting.enabled": true,
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {"source.organizeImports": true},
