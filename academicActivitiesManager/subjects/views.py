@@ -17,6 +17,7 @@ def index(request):
     return render(request, 'subjects/index.html', context)
 
 
+
 def addsubject(request):
     if request.method == 'POST':
         subject_name = request.POST["subjectName"]
@@ -25,3 +26,13 @@ def addsubject(request):
         new_subjects.save()
         return redirect('index')
     return render(request, 'subjects/add.html')
+
+def update_activity(request, id_activity):
+    name_grade = request.POST['grade']
+    name_date_finished = request.POST['date_finished']
+    print('ID_ACTIVITY', id_activity)
+    print('NAME_GRADE', name_grade)
+    print('name_date_finished', name_date_finished)
+
+    return redirect("index")
+
