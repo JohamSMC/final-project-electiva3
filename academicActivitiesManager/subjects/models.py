@@ -22,7 +22,6 @@ class Subject(models.Model):
     teacher = models.CharField(max_length=50)
     grade = models.FloatField(default=0)
     date_created = models.DateTimeField()
-    date_finished = models.DateTimeField()
 
 
 class Activity(models.Model):

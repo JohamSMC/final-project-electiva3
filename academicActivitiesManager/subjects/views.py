@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.shortcuts import redirect, render
 
 from .models import Activity, Subject, TypeActivity
@@ -15,6 +17,16 @@ def index(request):
     return render(request, 'subjects/index.html', context)
 
 
+
+def addsubject(request):
+    if request.method == 'POST':
+        subject_name = request.POST["subjectName"]
+        teacher_name = request.POST["teacherName"]
+        new_subjects = Subject(name=subject_name, teacher=teacher_name, date_created=date.today())
+        new_subjects.save()
+        return redirect('index')
+    return render(request, 'subjects/add.html')
+
 def update_activity(request, id_activity):
     name_grade = request.POST['grade']
     name_date_finished = request.POST['date_finished']
@@ -23,3 +35,4 @@ def update_activity(request, id_activity):
     print('name_date_finished', name_date_finished)
 
     return redirect("index")
+
