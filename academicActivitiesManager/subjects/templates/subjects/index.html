@@ -62,7 +62,7 @@
                           <div>
                             {{activity.name}}
                           </div>
-                          <span style="margin-left: 20px;"> 25% </span>
+                          <span style="margin-left: 20px;"> {{activity.percentage}}% </span>
                         </button>
                       </h2>
                       <div id="flush-{{activity.id_activity}}" class="accordion-collapse collapse"
@@ -74,8 +74,8 @@
                             <div class="row my-2">
                               <div class="input-group col-12">
                                 <span class="input-group-text">Fecha Entrega</span>
-                                <input type="datetime-local" class="form-control" value="{{activity.date_finished|date:"Y-m-d\TG:i"}}"
-                                  name="date_finished">
+                                <input type="datetime-local" class="form-control"
+                                  value="{{activity.date_finished|date:"Y-m-d\TG:i"}}" name="date_finished">
                               </div>
                             </div>
                             <div class="row my-2">
@@ -83,6 +83,23 @@
                                 <span class="input-group-text">NOTA</span>
                                 <input type="number" class="form-control" min="0.0" max="5.0" step="0.1"
                                   value="{{activity.grade|cut:","}}" name="grade">
+                              </div>
+                            </div>
+                            <div class="row my-2">
+                              <div class="input-group col-12">
+                                <span class="input-group-text">Porcentaje</span>
+                                <input type="number" class="form-control" min="0" max="100" step="1" name="percentage"
+                                  id="percentage" value="{{activity.percentage}}">
+                                <span class="input-group-text">%</span>
+                              </div>
+                            </div>
+                            <div class="row my-2">
+                              <div class="input-group col-12">
+                                <span class="input-group-text">Estado</span>
+                                <select class="form-select form-select-sm" id="state" name="state">
+                                  <option value="0">EN PROCESO</option>
+                                  <option value="1" selected>TERMINADA</option>
+                                </select>
                               </div>
                             </div>
                             <div class="row my-2">
@@ -99,6 +116,7 @@
               </div>
               {% endif %}
               {% endfor %}
+              <br>
               <button type="button" class="btn btn-success btn-sm" style="float: right;" data-bs-toggle="modal"
                 data-bs-target="#modal-{{subject.id_subject}}">
                 Añadir Actividad
@@ -113,22 +131,24 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      <form>
+                      <form method="POST" action="/add_activity">
+                        {% csrf_token %}
                         <div class="mb-3">
-                          <label for="subject" class="col-form-label">Materia</label>
-                          <input type="text" class="form-control" id="id_subject" value="{{subject.name}}">
+                          <label for="nameSubject" class="col-form-label">Materia</label>
+                          <input type="text" class="form-control" id="nameSubject" name="nameSubject"
+                            value="{{subject.name}}">
                         </div>
                         <div class="mb-3">
-                          <label for="activityName" class="col-form-label">Nombre</label>
-                          <input type="text" class="form-control" id="activityName">
+                          <label for="nameActivity" class="col-form-label">Nombre</label>
+                          <input type="text" class="form-control" id="nameActivity" name="nameActivity">
                         </div>
                         <div class="mb-3">
-                          <label for="activityDescription" class="col-form-label">Descripción</label>
-                          <textarea class="form-control" id="activityDescription"></textarea>
+                          <label for="descriptionActivity" class="col-form-label">Descripción</label>
+                          <textarea class="form-control" id="descriptionActivity" name="descriptionActivity"></textarea>
                         </div>
                         <div class="mb-3">
-                          <label for="activityDescription" class="col-form-label">Tipo Actividad</label>
-                          <select class="form-select form-select-sm" id="typeActivity">
+                          <label for="typeActivity" class="col-form-label">Tipo Actividad</label>
+                          <select class="form-select form-select-sm" id="typeActivity" name="typeActivity">
                             <option selected disabled>Seleccione una tipo</option>
                             {% if type_activities %}
                             {% for  type in type_activities%}
@@ -137,11 +157,21 @@
                             {% endif %}
                           </select>
                         </div>
+                        <div class="mb-3">
+                          <label for="activityDateFinished" class="col-form-label">Fecha Entrega</label>
+                          <input type="datetime-local" class="form-control" id="activityDateFinished"
+                            name="activityDateFinished">
+                        </div>
+                        <div class="mb-3">
+                          <label for="percentageActivity" class="col-form-label">Porcentaje</label>
+                          <input type="number" class="form-control" min="1" max="100" step="1" value="10"
+                            name="percentageActivity" id="percentageActivity">
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">NO AÑADIR</button>
+                          <button type="submit" class="btn btn-success">AÑADIR</button>
+                        </div>
                       </form>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">NO AÑADIR</button>
-                      <button type="button" class="btn btn-success">AÑADIR</button>
                     </div>
                   </div>
                 </div>
