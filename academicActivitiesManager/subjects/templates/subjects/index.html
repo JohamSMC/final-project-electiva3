@@ -90,7 +90,11 @@
                                 <select class="form-select form-select-sm" id="typeActivity" name="typeActivity">
                                   {% if type_activities %}
                                   {% for type in type_activities%}
-                                  <option value="{{type.id_activity}}">{{type.type_activity}}</option>
+                                    {% if  activity.type_activity_id == type.id_activity%}
+                                      <option value="{{type.id_activity}}" selected>{{type.type_activity}}</option>
+                                    {% else %}
+                                      <option value="{{type.id_activity}}">{{type.type_activity}}</option>
+                                    {% endif %}
                                   {% endfor %}
                                   {% endif %}
                                 </select>
