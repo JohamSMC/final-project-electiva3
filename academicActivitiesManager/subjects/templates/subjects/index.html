@@ -61,7 +61,11 @@
               {% for activity in activities %}
               {% if subject.id_subject == activity.subject_id  %}
               <div class="collapse" id="subject-{{subject.id_subject}}">
-                <div class="card card-body">
+              {% if activity.state %}
+                <div class="card card-body " style="background:#61ab61">
+              {% else %}
+                <div class="card card-body " style="background:#fbc156">
+              {% endif %}
                   <div class="accordion accordion-flush" id="accordion-{{activity.id_activity}}">
                     <div class="accordion-item">
                       <h2 class="accordion-header" id="flush-{{activity.id}}">
@@ -206,9 +210,15 @@
               <br>
               <hr>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: {{subject.total_completed}}%;" aria-valuenow="{{subject.total_completed}}" aria-valuemin="0"
-                  aria-valuemax="100">{{subject.total_completed}}%
-                </div>
+                {% if subject.total_completed > 70 %}
+                  <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: {{subject.total_completed}}%;" aria-valuenow="{{subject.total_completed}}" aria-valuemin="0"
+                    aria-valuemax="100">{{subject.total_completed}}%
+                  </div>
+                {% else %}
+                  <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" style="width: {{subject.total_completed}}%;" aria-valuenow="{{subject.total_completed}}" aria-valuemin="0"
+                    aria-valuemax="100">{{subject.total_completed}}%
+                  </div>
+                {% endif %}
               </div>
               {% endif %}
             </p>
