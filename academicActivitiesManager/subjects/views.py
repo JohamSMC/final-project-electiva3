@@ -13,10 +13,13 @@ def index(request):
 
     for subject in all_subjects:
         total_completed = 0
+        grade = 0
         for activity in all_activities:
             if (activity.subject_id == subject.id_subject) and (activity.state):
-                total_completed = total_completed + activity.percentage
+                total_completed += activity.percentage
+                grade += (float(activity.grade)*activity.percentage)/100
         subject.total_completed = total_completed
+        subject.grade = grade
         subject.save()
 
     context = {
@@ -38,29 +41,25 @@ def addsubject(request):
 
 
 def update_activity(request, id_activity):
-    print("//////////////")
-    print(id_activity)
-    print("//////////////")
     activity = Activity.objects.get(id_activity=id_activity)
     subject = Subject.objects.get(id_subject=activity.subject_id)
-    name_grade = request.POST['grade']
-    name_date_finished = request.POST['date_finished']
+
+    new_date_finished = request.POST['date_finished']
     new_percentage = request.POST['percentage']
-    state = request.POST['state']
-    print("//////////////")
-    print(new_percentage)
-    print("//////////////")
+    new_grade = request.POST['grade']
+    new_state = request.POST['state']
+
     type_activity = TypeActivity.objects.get(id_activity=request.POST["typeActivity"])
 
-    all_activities = Activity.objects.all()
+    if new_state:
+        new_total_grade = ((float(new_grade)*int(new_percentage))/100 + subject.grade
+                           - (float(activity.grade)*activity.percentage)/100)
 
     new_total_percentage = int(new_percentage) + subject.total_completed - activity.percentage
-    new_total_grade = (float(name_grade)*activity.percentage)/100 + subject.grade
-    print("****NOTA***")
-    print(new_total_grade)
-    print("****NOTA***")
+
     if new_total_percentage > 100:
         all_subjects = Subject.objects.all()
+        all_activities = Activity.objects.all()
         all_type_activities = TypeActivity.objects.all()
         context = {
             'subjects': all_subjects,
@@ -71,11 +70,11 @@ def update_activity(request, id_activity):
         return render(request, 'subjects/index.html', context)
     else:
         subject.total_completed = new_total_percentage
-        subject.grade = new_total_grade
+        subject.grade = round(new_total_grade, 2)
         subject.save()
-        activity.grade = name_grade
-        activity.date_finished = name_date_finished
-        activity.state = state
+        activity.grade = new_grade
+        activity.date_finished = new_date_finished
+        activity.state = new_state
         activity.percentage = new_percentage
         activity.type_activity = type_activity
         activity.save()
@@ -99,9 +98,9 @@ def add_activity(request):
         for activity in all_activities:
             if activity.subject_id == subject.id_subject:
                 total_percent = total_percent + activity.percentage
-        print("//////////////")
-        print(total_percent)
-        print("//////////////")
+        # print("//////////////")
+        # print(total_percent)
+        # print("//////////////")
         if total_percent + int(percentage_activity) > 100:
             all_subjects = Subject.objects.all()
             all_activities = Activity.objects.all()
@@ -114,7 +113,6 @@ def add_activity(request):
             }
             return render(request, 'subjects/index.html', context)
         else:
-
             new_activity = Activity(
                 name=name_activity, description=description_activity, type_activity=type_activity,
                 subject=subject, date_created=date.today(),
@@ -127,7 +125,7 @@ def add_activity(request):
 def notification_task(request):
     all_tasks = Activity.objects.filter(state=False)
     tasks = []
-    print("----------------")
+    # print("----------------")
     time_now_str = datetime.utcnow().strftime('%Y-%m-%d %H:%M')
     # time_now_str = datetime.utcnow()
 
@@ -138,11 +136,11 @@ def notification_task(request):
         time_finish = datetime.strptime(time_finish_str, '%Y-%m-%d %H:%M')
         time_rest = time_finish - time_now
         time_rest = time_rest.days
-        print(time_rest)
+        # print(time_rest)
         if time_rest <= 5:
             tasks.append({"name": task.name,
                          "date_finished": task.date_finished.strftime('%Y-%m-%d'),
                           "time_rest": time_rest})
-    print("----------------")
+    # print("----------------")
     response = {"tasks": tasks}
     return JsonResponse(response)
