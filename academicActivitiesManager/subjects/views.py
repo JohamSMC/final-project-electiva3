@@ -10,6 +10,14 @@ def index(request):
     all_subjects = Subject.objects.all()
     all_activities = Activity.objects.all()
     all_type_activities = TypeActivity.objects.all()
+
+    for subject in all_subjects:
+        total_completed = 0
+        for activity in all_activities:
+            if (activity.subject_id == subject.id_subject) and (activity.state):
+                total_completed = total_completed + activity.percentage
+        subject.total_completed = total_completed
+
     context = {
         'subjects': all_subjects,
         'activities': all_activities,
@@ -29,27 +37,31 @@ def addsubject(request):
 
 
 def update_activity(request, id_activity):
+    print("//////////////")
+    print(id_activity)
+    print("//////////////")
     activity = Activity.objects.get(id_activity=id_activity)
     subject = Subject.objects.get(id_subject=activity.subject_id)
     name_grade = request.POST['grade']
     name_date_finished = request.POST['date_finished']
     percentage = request.POST['percentage']
     state = request.POST['state']
+    print("//////////////")
+    print(activity.name)
+    print(subject.name)
+    print("//////////////")
     type_activity = TypeActivity.objects.get(id_activity=request.POST["typeActivity"])
 
     all_activities = Activity.objects.all()
 
     total_percent = 0
 
-    for activity in all_activities:
-        if activity.subject_id == subject.id_subject:
-            total_percent = total_percent + activity.percentage
-    print("//////////////")
-    print(total_percent)
-    print("//////////////")
+    for activiti in all_activities:
+        if activiti.subject_id == subject.id_subject:
+            total_percent = total_percent + activiti.percentage
+
     if total_percent + int(percentage) > 100:
         all_subjects = Subject.objects.all()
-        all_activities = Activity.objects.all()
         all_type_activities = TypeActivity.objects.all()
         context = {
             'subjects': all_subjects,

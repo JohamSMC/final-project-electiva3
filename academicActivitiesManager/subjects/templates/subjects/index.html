@@ -118,8 +118,13 @@
                               <div class="input-group col-12">
                                 <span class="input-group-text">Estado</span>
                                 <select class="form-select form-select-sm" id="state" name="state">
-                                  <option value="0">EN PROCESO</option>
-                                  <option value="1" selected>TERMINADA</option>
+                                    {% if activity.state %}
+                                      <option value="1" selected>TERMINADA</option>
+                                      <option value="0">EN PROCESO</option>
+                                    {% else %}
+                                      <option value="1">TERMINADA</option>
+                                      <option value="0" selected>EN PROCESO</option>
+                                    {% endif %}
                                 </select>
                               </div>
                             </div>
@@ -201,8 +206,8 @@
               <br>
               <hr>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                  aria-valuemax="100">25%
+                <div class="progress-bar" role="progressbar" style="width: {{subject.total_completed}}%;" aria-valuenow="{{subject.total_completed}}" aria-valuemin="0"
+                  aria-valuemax="100">{{subject.total_completed}}%
                 </div>
               </div>
               {% endif %}

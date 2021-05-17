@@ -22,6 +22,7 @@ class Subject(models.Model):
     teacher = models.CharField(max_length=50)
     grade = models.FloatField(default=0)
     date_created = models.DateTimeField()
+    total_completed = models.PositiveSmallIntegerField(default=0)
 
 
 class Activity(models.Model):
@@ -32,6 +33,6 @@ class Activity(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE,)
     state = models.BooleanField(default=False)
     grade = models.FloatField(default=0)
-    percentage = models.PositiveSmallIntegerField(null=False,)
+    percentage = models.PositiveSmallIntegerField(null=False)
     date_created = models.DateTimeField()
     date_finished = models.DateTimeField()
