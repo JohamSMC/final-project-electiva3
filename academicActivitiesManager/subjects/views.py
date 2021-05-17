@@ -1,5 +1,6 @@
-from datetime import date
+from datetime import date, datetime, timedelta
 
+from django.http.response import JsonResponse
 from django.shortcuts import redirect, render
 
 from .models import Activity, Subject, TypeActivity
@@ -40,3 +41,27 @@ def update_activity(request, id_activity):
     print('name_date_finished', name_date_finished)
 
     return redirect("index")
+
+
+def notification_task(request):
+    all_tasks = Activity.objects.filter(state=False)
+    tasks = []
+    print("----------------")
+    time_now_str = datetime.utcnow().strftime('%Y-%m-%d %H:%M')
+    # time_now_str = datetime.utcnow()
+
+    for task in all_tasks:
+        time_finish_str = task.date_finished.strftime('%Y-%m-%d %H:%M')
+        # time_now = datetime.strptime('%Y-%m-%d %H:%M', time_now_str)
+        time_now = datetime.strptime(time_now_str, '%Y-%m-%d %H:%M')
+        time_finish = datetime.strptime(time_finish_str, '%Y-%m-%d %H:%M')
+        time_rest = time_finish - time_now
+        time_rest = time_rest.days
+        print(time_rest)
+        if time_rest <= 5:
+            tasks.append({"name": task.name,
+                         "date_finished": task.date_finished.strftime('%Y-%m-%d'),
+                          "time_rest": time_rest})
+    print("----------------")
+    response = {"tasks": tasks}
+    return JsonResponse(response)
