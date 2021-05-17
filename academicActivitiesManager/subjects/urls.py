@@ -7,5 +7,7 @@ urlpatterns = [
     path('add-subject', views.addsubject, name="add-subject"),
     path('finish_activity/<str:id_activity>', views.update_activity, name="finish_activity"),
     path('add_activity', views.add_activity, name="add-activity"),
+    path('notification_task/', views.notification_task, name="notification_task"),
+
 
 ]
