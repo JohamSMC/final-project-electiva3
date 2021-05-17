@@ -55,6 +55,10 @@ def update_activity(request, id_activity):
     all_activities = Activity.objects.all()
 
     new_total_percentage = int(new_percentage) + subject.total_completed - activity.percentage
+    new_total_grade = (float(name_grade)*activity.percentage)/100 + subject.grade
+    print("****NOTA***")
+    print(new_total_grade)
+    print("****NOTA***")
     if new_total_percentage > 100:
         all_subjects = Subject.objects.all()
         all_type_activities = TypeActivity.objects.all()
@@ -67,6 +71,7 @@ def update_activity(request, id_activity):
         return render(request, 'subjects/index.html', context)
     else:
         subject.total_completed = new_total_percentage
+        subject.grade = new_total_grade
         subject.save()
         activity.grade = name_grade
         activity.date_finished = name_date_finished
