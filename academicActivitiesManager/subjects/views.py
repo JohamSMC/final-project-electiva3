@@ -1,4 +1,4 @@
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 
 from django.http.response import JsonResponse
 from django.shortcuts import redirect, render
