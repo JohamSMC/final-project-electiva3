@@ -19,12 +19,21 @@
 <body style="position: relative">
   <!-- notification_area -->
   <div id="notification_area" style="position: absolute; right: 0"></div>
+  <div id="notification_normal" style="position: absolute; left: 0"></div>
   <template id="template_alert_task">
     <div id="class_alert" class="alert alert-success" style="z-index:10" role="alert">
       <h4 id="alertName" class="alert-heading"></h4>
       <p><strong>Fecha entrega: </strong><span id="alertDateFinish"></span></p>
       <hr>
       <p class="mb-0"><strong>Tiempo restante: </strong><span id="alertTimeRest"></span></p>
+    </div>
+
+
+  </template>
+    <template id="template_alert">
+    <div id="class_alert" class="alert" style="z-index:10" role="alert">
+      <h4 id="alerTitle" class="alert-heading"></h4>
+      <p><span id="alertMessage"></span></p>
     </div>
 
 
@@ -232,6 +241,17 @@
     -->
   <script src="{% static 'js/notification.js' %}"></script>
   <script src="{% static 'js/progress_bar.js' %}"></script>
+  {% if error_add_activity %}
+    <script>
+      showOneNotification({ title:"No se pudo añadir la actividad", message:"Porcentaje total de la materia supera el 100%", class_to_add:"alert-warning" })
+    </script>
+  {% endif %}
+  {% if error_update_activity %}
+    <script>
+      showOneNotification({ title:"No se pudo actualizar la actividad", message:"Porcentaje total de la materia supera el 100%", class_to_add:"alert-warning" })
+    </script>
+  {% endif %}
+  
 </body>
 
 </html>

@@ -29,44 +29,86 @@ def addsubject(request):
 
 
 def update_activity(request, id_activity):
+    activity = Activity.objects.get(id_activity=id_activity)
+    subject = Subject.objects.get(id_subject=activity.subject_id)
     name_grade = request.POST['grade']
     name_date_finished = request.POST['date_finished']
     percentage = request.POST['percentage']
     state = request.POST['state']
     type_activity = TypeActivity.objects.get(id_activity=request.POST["typeActivity"])
 
-    activity = Activity.objects.get(id_activity=id_activity)
-    activity.grade = name_grade
-    activity.date_finished = name_date_finished
-    activity.state = state
-    activity.percentage = percentage
-    activity.type_activity = type_activity
-    activity.save()
-    # print('ID_ACTIVITY', id_activity)
-    # print('NAME_GRADE', name_grade)
-    # print('name_date_finished', name_date_finished)
+    all_activities = Activity.objects.all()
 
-    return redirect("index")
+    total_percent = 0
+
+    for activity in all_activities:
+        if activity.subject_id == subject.id_subject:
+            total_percent = total_percent + activity.percentage
+    print("//////////////")
+    print(total_percent)
+    print("//////////////")
+    if total_percent + int(percentage) > 100:
+        all_subjects = Subject.objects.all()
+        all_activities = Activity.objects.all()
+        all_type_activities = TypeActivity.objects.all()
+        context = {
+            'subjects': all_subjects,
+            'activities': all_activities,
+            'type_activities': all_type_activities,
+            "error_update_activity": True
+        }
+        return render(request, 'subjects/index.html', context)
+    else:
+
+        activity.grade = name_grade
+        activity.date_finished = name_date_finished
+        activity.state = state
+        activity.percentage = percentage
+        activity.type_activity = type_activity
+        activity.save()
+
+        return redirect("index")
 
 
 def add_activity(request):
     if request.method == 'POST':
         name_subject = request.POST["nameSubject"]
         subject = Subject.objects.get(name=name_subject)
-
+        all_activities = Activity.objects.all()
         name_activity = request.POST["nameActivity"]
         description_activity = request.POST["descriptionActivity"]
         type_activity = TypeActivity.objects.get(id_activity=request.POST["typeActivity"])
         date_finished = request.POST["activityDateFinished"]
         percentage_activity = request.POST["percentageActivity"]
 
-        new_activity = Activity(
-            name=name_activity, description=description_activity, type_activity=type_activity,
-            subject=subject, date_created=date.today(),
-            date_finished=date_finished, percentage=percentage_activity)
-        new_activity.save()
+        total_percent = 0
 
-    return redirect('index')
+        for activity in all_activities:
+            if activity.subject_id == subject.id_subject:
+                total_percent = total_percent + activity.percentage
+        print("//////////////")
+        print(total_percent)
+        print("//////////////")
+        if total_percent + int(percentage_activity) > 100:
+            all_subjects = Subject.objects.all()
+            all_activities = Activity.objects.all()
+            all_type_activities = TypeActivity.objects.all()
+            context = {
+                'subjects': all_subjects,
+                'activities': all_activities,
+                'type_activities': all_type_activities,
+                "error_add_activity": True
+            }
+            return render(request, 'subjects/index.html', context)
+        else:
+
+            new_activity = Activity(
+                name=name_activity, description=description_activity, type_activity=type_activity,
+                subject=subject, date_created=date.today(),
+                date_finished=date_finished, percentage=percentage_activity)
+            new_activity.save()
+
+            return redirect('index')
 
 
 def notification_task(request):

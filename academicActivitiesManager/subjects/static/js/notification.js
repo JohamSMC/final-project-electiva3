@@ -41,6 +41,28 @@ function showNotification(data) {
   });
 }
 
+function showOneNotification({ title, message, class_to_add }) {
+  let notification_area = document.getElementById("notification_normal")
+  let template_alert = document.getElementById('template_alert').content;
+
+  // Llenamos datos en el alert
+  let alerTitle = template_alert.getElementById("alerTitle")
+  let alertMessage = template_alert.getElementById("alertMessage")
+  let class_alert = template_alert.getElementById("class_alert")
+
+  alerTitle.textContent = title
+  alertMessage.textContent = message
+  class_alert.classList.add(class_to_add)
+
+  let clone = template_alert.cloneNode(true);
+  let newAlert = clone.firstElementChild;
+  notification_area.appendChild(newAlert);
+  // Se encarga de eliminar automaticamente el alert
+  setTimeout(function () {
+    notification_area.removeChild(newAlert);
+  }, 5000)
+}
+
 const time_restant = (time_rest) => {
   let message = ""
   if (time_rest > 1) {
