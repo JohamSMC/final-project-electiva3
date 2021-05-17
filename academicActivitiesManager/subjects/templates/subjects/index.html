@@ -20,12 +20,12 @@
   <!-- notification_area -->
   <div id="notification_area" style="position: absolute; right: 0"></div>
   <template id="template_alert_task">
-  <div id="class_alert" class="alert alert-success" style="z-index:10" role="alert">
-  <h4  id="alertName" class="alert-heading"></h4>
-  <p><strong>Fecha entrega: </strong><span id="alertDateFinish"></span></p>
-  <hr>
-  <p class="mb-0"><strong>Tiempo restante: </strong><span id="alertTimeRest"></span></p>
-</div>
+    <div id="class_alert" class="alert alert-success" style="z-index:10" role="alert">
+      <h4 id="alertName" class="alert-heading"></h4>
+      <p><strong>Fecha entrega: </strong><span id="alertDateFinish"></span></p>
+      <hr>
+      <p class="mb-0"><strong>Tiempo restante: </strong><span id="alertTimeRest"></span></p>
+    </div>
 
 
   </template>
@@ -71,6 +71,18 @@
                         <div class="accordion-body">
                           <form action="/finish_activity/{{activity.id_activity}}" method="post">
                             {% csrf_token %}
+                            <div class="row my-2">
+                              <div class="input-group col-12">
+                                <span class="input-group-text">Tipo de Actividad</span>
+                                <select class="form-select form-select-sm" id="typeActivity" name="typeActivity">
+                                  {% if type_activities %}
+                                  {% for  type in type_activities%}
+                                  <option value="{{type.id_activity}}">{{type.type_activity}}</option>
+                                  {% endfor %}
+                                  {% endif %}
+                                </select>
+                              </div>
+                            </div>
                             <div class="row my-2">
                               <div class="input-group col-12">
                                 <span class="input-group-text">Fecha Entrega</span>

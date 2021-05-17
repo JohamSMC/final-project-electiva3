@@ -33,12 +33,14 @@ def update_activity(request, id_activity):
     name_date_finished = request.POST['date_finished']
     percentage = request.POST['percentage']
     state = request.POST['state']
+    type_activity = TypeActivity.objects.get(id_activity=request.POST["typeActivity"])
 
     activity = Activity.objects.get(id_activity=id_activity)
     activity.grade = name_grade
     activity.date_finished = name_date_finished
     activity.state = state
     activity.percentage = percentage
+    activity.type_activity = type_activity
     activity.save()
     # print('ID_ACTIVITY', id_activity)
     # print('NAME_GRADE', name_grade)
@@ -66,7 +68,7 @@ def add_activity(request):
 
     return redirect('index')
 
-  
+
 def notification_task(request):
     all_tasks = Activity.objects.filter(state=False)
     tasks = []
@@ -89,4 +91,3 @@ def notification_task(request):
     print("----------------")
     response = {"tasks": tasks}
     return JsonResponse(response)
-
