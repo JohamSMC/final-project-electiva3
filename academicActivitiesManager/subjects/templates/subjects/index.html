@@ -12,6 +12,10 @@
     integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous" />
   <!-- CSS -->
   <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <!-- CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <title>Taller Final - ELECTIVA 3</title>
 </head>
@@ -43,6 +47,15 @@
   {% if subjects %}
 
   <div class="container bg-secondary bg-gradient">
+    <br>
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container-fluid" style="justify-content: center;">
+        <a class="navbar-brand">
+          Administrador Actividades Académicas
+          <i class="fas fa-graduation-cap"></i>
+        </a>
+      </div>
+    </nav>
     <div class="row row-cols-sm-md-12 row-cols-lg-2 my-3">
 
       {% for subject in subjects %}
@@ -56,6 +69,7 @@
                 data-bs-target="#subject-{{subject.id_subject}}" aria-expanded="false"
                 aria-controls="subject-{{subject.id_subject}}">
                 ACTIVIDADES
+                <i class="fas fa-edit"></i>
               </button>
               {% if activities %}
               {% for activity in activities %}
@@ -75,7 +89,7 @@
                             <div>
                               {{activity.name}}
                             </div>
-                            <span style="margin-left: 30%;"> {{activity.percentage}}% </span>
+                            <span class="position-absolute start-50"> {{activity.percentage}}% </span>
                           </button>
                         </h2>
                         <div id="flush-{{activity.id_activity}}" class="accordion-collapse collapse"
@@ -143,32 +157,37 @@
                               </div>
                             </form>
                             <form action="/delete_activity/{{activity.id_activity}}" method="POST">
-                            {% csrf_token %}
-                            <!-- Button Modal ELIMINAR Actividad-->
-                            <div class="d-grid gap-2">
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDeleteActivity-{{activity.id_activity}}">
-                                    Eliminar Actividad
+                              {% csrf_token %}
+                              <!-- Button Modal ELIMINAR Actividad-->
+                              <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                  data-bs-target="#modalDeleteActivity-{{activity.id_activity}}">
+                                  Eliminar Actividad
+                                  <i class="far fa-trash-alt"></i>
                                 </button>
-                            </div>
-                            <!-- Modal ELIMINAR Actividad -->
-                            <div class="modal fade" id="modalDeleteActivity-{{activity.id_activity}}" tabindex="-1" aria-labelledby="modalDeleteActivityLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="modalDeleteActivityLabel"> ELIMINAR {{activity.name}}</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <!-- Modal ELIMINAR Actividad -->
+                              <div class="modal fade" id="modalDeleteActivity-{{activity.id_activity}}" tabindex="-1"
+                                aria-labelledby="modalDeleteActivityLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="modalDeleteActivityLabel"> ELIMINAR {{activity.name}}
+                                      </h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      ¿Está seguro que desea eliminar {{activity.name}}?
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">NO</button>
+                                      <input type="submit" class="btn btn-danger" value="SI">
+                                    </div>
+                                  </div>
                                 </div>
-                                <div class="modal-body">
-                                    ¿Está seguro que desea eliminar {{activity.name}}?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">NO</button>
-                                    <input type="submit" class="btn btn-danger" value="SI">
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                        </form>
+                              </div>
+                            </form>
                           </div>
                         </div>
                       </div>
@@ -181,7 +200,8 @@
                 <br>
                 <button type="button" class="btn btn-success btn-sm" style="float: right;" data-bs-toggle="modal"
                   data-bs-target="#modal-{{subject.id_subject}}">
-                  Añadir Actividad
+                  Agregar Actividad
+                  <i class="fas fa-plus-circle"></i>
                 </button>
                 <!-- START - Content Modal -->
                 <div class="modal fade" id="modal-{{subject.id_subject}}" data-bs-backdrop="static"
@@ -248,20 +268,20 @@
                 </p>
                 <div class="progress">
                   {% if  subject.total_completed >= 70 %}
-                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"
-                        style="width: {{subject.total_completed}}%;" aria-valuenow="{{subject.total_completed}}"
-                        aria-valuemin="0" aria-valuemax="100">{{subject.total_completed}}%
-                    </div>
+                  <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"
+                    style="width: {{subject.total_completed}}%;" aria-valuenow="{{subject.total_completed}}"
+                    aria-valuemin="0" aria-valuemax="100">{{subject.total_completed}}%
+                  </div>
                   {% elif subject.total_completed >= 50 %}
-                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar"
-                        style="width: {{subject.total_completed}}%;" aria-valuenow="{{subject.total_completed}}"
-                        aria-valuemin="0" aria-valuemax="100">{{subject.total_completed}}%
-                    </div>
+                  <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar"
+                    style="width: {{subject.total_completed}}%;" aria-valuenow="{{subject.total_completed}}"
+                    aria-valuemin="0" aria-valuemax="100">{{subject.total_completed}}%
+                  </div>
                   {% elif subject.total_completed < 50 %}
-                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar"
-                        style="width: {{subject.total_completed}}%;" aria-valuenow="{{subject.total_completed}}"
-                        aria-valuemin="0" aria-valuemax="100">{{subject.total_completed}}%
-                    </div>
+                  <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar"
+                    style="width: {{subject.total_completed}}%;" aria-valuenow="{{subject.total_completed}}"
+                    aria-valuemin="0" aria-valuemax="100">{{subject.total_completed}}%
+                  </div>
                   {% endif %}
                 </div>
                 {% endif %}
@@ -270,12 +290,15 @@
                   {% csrf_token %}
                   <!-- Button Modal ELIMINAR Asignatura-->
                   <div class="d-grid gap-2">
-                      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDeleteSubject-{{subject.id_subject}}">
-                          Eliminar Asignatura
-                      </button>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                      data-bs-target="#modalDeleteSubject-{{subject.id_subject}}">
+                      Eliminar Asignatura
+                      <i class="far fa-trash-alt"></i>
+                    </button>
                   </div>
                   <!-- Modal ELIMINAR Asignatura -->
-                  <div class="modal fade" id="modalDeleteSubject-{{subject.id_subject}}" tabindex="-1" aria-labelledby="modalDeleteSubjectLabel" aria-hidden="true">
+                  <div class="modal fade" id="modalDeleteSubject-{{subject.id_subject}}" tabindex="-1"
+                    aria-labelledby="modalDeleteSubjectLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
@@ -302,7 +325,10 @@
         <div class="card">
           <div class="card-header">
             <a href="{% url 'add-subject' %}" class="col-12">
-              <button type="button" class="btn btn-success col-12">Agregar Asignatura</button>
+              <button type="button" class="btn btn-success col-12">
+                Agregar Asignatura
+                <i class="fas fa-plus-circle"></i>
+              </button>
             </a>
           </div>
         </div>
