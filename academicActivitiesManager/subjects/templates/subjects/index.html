@@ -13,7 +13,7 @@
   <!-- CSS -->
   <link rel="stylesheet" href="{% static 'css/index.css' %}">
 
-  <title>Hello, world!</title>
+  <title>Taller Final - ELECTIVA 3</title>
 </head>
 
 <body style="position: relative">
@@ -75,7 +75,7 @@
                             <div>
                               {{activity.name}}
                             </div>
-                            <span style="margin-left: 20px;"> {{activity.percentage}}% </span>
+                            <span style="margin-left: 30%;"> {{activity.percentage}}% </span>
                           </button>
                         </h2>
                         <div id="flush-{{activity.id_activity}}" class="accordion-collapse collapse"
@@ -147,7 +147,7 @@
                             <!-- Button Modal ELIMINAR Actividad-->
                             <div class="d-grid gap-2">
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDeleteActivity-{{activity.id_activity}}">
-                                    ELIMINAR ACTIVIDAD
+                                    Eliminar Actividad
                                 </button>
                             </div>
                             <!-- Modal ELIMINAR Actividad -->
@@ -247,17 +247,21 @@
                   <t></t><span>{{subject.grade}}</span>
                 </p>
                 <div class="progress">
-                  {% if subject.total_completed > 70 %}
-
-                  <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"
-                    style="width: {{subject.total_completed}}%;" aria-valuenow="{{subject.total_completed}}"
-                    aria-valuemin="0" aria-valuemax="100">{{subject.total_completed}}%
-                  </div>
-                  {% else %}
-                  <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar"
-                    style="width: {{subject.total_completed}}%;" aria-valuenow="{{subject.total_completed}}"
-                    aria-valuemin="0" aria-valuemax="100">{{subject.total_completed}}%
-                  </div>
+                  {% if  subject.total_completed >= 70 %}
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"
+                        style="width: {{subject.total_completed}}%;" aria-valuenow="{{subject.total_completed}}"
+                        aria-valuemin="0" aria-valuemax="100">{{subject.total_completed}}%
+                    </div>
+                  {% elif subject.total_completed >= 50 %}
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar"
+                        style="width: {{subject.total_completed}}%;" aria-valuenow="{{subject.total_completed}}"
+                        aria-valuemin="0" aria-valuemax="100">{{subject.total_completed}}%
+                    </div>
+                  {% elif subject.total_completed < 50 %}
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar"
+                        style="width: {{subject.total_completed}}%;" aria-valuenow="{{subject.total_completed}}"
+                        aria-valuemin="0" aria-valuemax="100">{{subject.total_completed}}%
+                    </div>
                   {% endif %}
                 </div>
                 {% endif %}
@@ -267,7 +271,7 @@
                   <!-- Button Modal ELIMINAR Asignatura-->
                   <div class="d-grid gap-2">
                       <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDeleteSubject-{{subject.id_subject}}">
-                          ELIMINAR ASIGNATURA
+                          Eliminar Asignatura
                       </button>
                   </div>
                   <!-- Modal ELIMINAR Asignatura -->
