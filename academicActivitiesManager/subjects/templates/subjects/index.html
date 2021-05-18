@@ -142,6 +142,33 @@
                                 </div>
                               </div>
                             </form>
+                            <form action="/delete_activity/{{activity.id_activity}}" method="POST">
+                            {% csrf_token %}
+                            <!-- Button Modal ELIMINAR Actividad-->
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDeleteActivity-{{activity.id_activity}}">
+                                    ELIMINAR ACTIVIDAD
+                                </button>
+                            </div>
+                            <!-- Modal ELIMINAR Actividad -->
+                            <div class="modal fade" id="modalDeleteActivity-{{activity.id_activity}}" tabindex="-1" aria-labelledby="modalDeleteActivityLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalDeleteActivityLabel"> ELIMINAR {{activity.name}}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    ¿Está seguro que desea eliminar {{activity.name}}?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">NO</button>
+                                    <input type="submit" class="btn btn-danger" value="SI">
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </form>
                           </div>
                         </div>
                       </div>

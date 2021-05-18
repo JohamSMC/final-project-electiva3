@@ -152,3 +152,11 @@ def delete_subject(request, id_subject):
         subject.delete()
 
     return redirect("index")
+
+
+def delete_activity(request, id_activity):
+    if request.method == 'POST':
+        activity = Activity.objects.get(id_activity=id_activity)
+        activity.delete()
+
+    return redirect("index")
