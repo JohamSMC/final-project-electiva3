@@ -144,3 +144,11 @@ def notification_task(request):
     # print("----------------")
     response = {"tasks": tasks}
     return JsonResponse(response)
+
+
+def delete_subject(request, id_subject):
+    if request.method == 'POST':
+        subject = Subject.objects.get(id_subject=id_subject)
+        subject.delete()
+
+    return redirect("index")

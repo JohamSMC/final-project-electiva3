@@ -8,6 +8,5 @@ urlpatterns = [
     path('finish_activity/<str:id_activity>', views.update_activity, name="finish_activity"),
     path('add_activity', views.add_activity, name="add-activity"),
     path('notification_task/', views.notification_task, name="notification_task"),
-
-
+    path('delete_subject/<str:id_subject>', views.delete_subject, name="delete-subject"),
 ]
